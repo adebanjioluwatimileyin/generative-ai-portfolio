@@ -1,2 +1,4 @@
 .env
 IMDB Dataset.csv
+.DS_Store
+**/.DS_Store
