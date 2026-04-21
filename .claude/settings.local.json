@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(python3)",
+      "Bash(git add *)",
+      "Bash(git rm *)",
+      "Bash(rm -rf LLMOps/End-to-end-RAG-using-Amazon-Bedrock/.git)",
+      "Bash(git commit -m ' *)",
+      "Bash(conda run *)",
+      "Bash(python3 -c \"import json; nb=json.load\\(open\\('/Users/adebanjiadelowo/Documents/GenerativeAIProjects/Retrieval Augmented Generation \\(RAG\\)/RAG-gemini/rag gemini.ipynb'\\)\\); [print\\(c.get\\('id',''\\), repr\\(c['source'][:60]\\)\\) for c in nb['cells']]\")",
+      "Bash(python3 -)",
+      "Bash(python3 /dev/stdin)"
+    ]
+  }
+}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Chatbot</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <!-- Header -->
+    <div class="app-header">
+      <div class="header-icon"><i class="fas fa-heartbeat"></i></div>
+      <div class="header-text">
+        <span class="header-title">Medical Chatbot</span>
+        <span class="header-sub">Powered by GPT-4o-mini + LangChain + Pinecone</span>
+      </div>
+      <div class="online-dot"><span></span> Online</div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-area" id="chat-area">
+      <div class="welcome-msg" id="welcome-msg">
+        <i class="fas fa-user-md welcome-icon"></i>
+        <p>Hello! I'm your AI medical assistant. Ask me about symptoms, conditions, treatments, or medications.</p>
+        <div class="suggestion-chips">
+          <span class="chip" onclick="sendChip(this)">What is Acne?</span>
+          <span class="chip" onclick="sendChip(this)">What causes Diabetes?</span>
+          <span class="chip" onclick="sendChip(this)">Symptoms of Asthma?</span>
+          <span class="chip" onclick="sendChip(this)">How is Pneumonia treated?</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="chat-footer">
+      <form id="chat-form">
+        <input
+          type="text"
+          id="msg-input"
+          name="msg"
+          placeholder="Ask a medical question..."
+          autocomplete="off"
+        />
+        <button type="submit" id="send-btn">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </form>
+      <p class="footer-hint">This chatbot is for informational purposes only — not a substitute for professional medical advice.</p>
+    </div>
+
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    function getTime() {
+      const d = new Date();
+      return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function formatResponse(text) {
+      return escapeHtml(text)
+        .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function appendMessage(text, role) {
+      $('#welcome-msg').hide();
+      const time = getTime();
+      const isUser = role === 'user';
+      const icon = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-user-md"></i>';
+      const content = isUser ? escapeHtml(text) : formatResponse(text);
+
+      const html = `
+        <div class="msg-row ${role}">
+          <div class="avatar">${icon}</div>
+          <div class="bubble">
+            <div class="bubble-content">${content}</div>
+            <span class="msg-time">${time}</span>
+          </div>
+        </div>`;
+      $('#chat-area').append(html);
+      scrollToBottom();
+    }
+
+    function appendThinking() {
+      $('#welcome-msg').hide();
+      const html = `<div class="msg-row bot" id="thinking-msg">
+        <div class="avatar"><i class="fas fa-user-md"></i></div>
+        <div class="bubble">
+          <div class="bubble-content thinking-dots"><span></span><span></span><span></span></div>
+        </div>
+      </div>`;
+      $('#chat-area').append(html);
+      scrollToBottom();
+    }
+
+    function scrollToBottom() {
+      const area = document.getElementById('chat-area');
+      area.scrollTop = area.scrollHeight;
+    }
+
+    function sendMessage(msg) {
+      if (!msg.trim()) return;
+      appendMessage(msg, 'user');
+      $('#msg-input').val('');
+      $('#send-btn').prop('disabled', true);
+      appendThinking();
+
+      $.ajax({
+        type: 'POST',
+        url: '/get',
+        data: { msg: msg },
+        success: function (data) {
+          $('#thinking-msg').remove();
+          appendMessage(data, 'bot');
+        },
+        error: function () {
+          $('#thinking-msg').remove();
+          appendMessage('Sorry, I encountered an error. Please try again.', 'bot');
+        },
+        complete: function () {
+          $('#send-btn').prop('disabled', false);
+          $('#msg-input').focus();
+        }
+      });
+    }
+
+    function sendChip(el) {
+      sendMessage($(el).text());
+    }
+
+    $('#chat-form').on('submit', function (e) {
+      e.preventDefault();
+      sendMessage($('#msg-input').val());
+    });
+  </script>
+
+</body>
+</html>

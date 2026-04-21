@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Translator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            color: #fff;
+        }
+        .navbar {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .navbar-brand { font-weight: 700; color: #e94560 !important; font-size: 1.4rem; }
+        .card {
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+        }
+        .upload-area {
+            border: 2px dashed rgba(233,69,96,0.5);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-area:hover { border-color: #e94560; background: rgba(233,69,96,0.05); }
+        .upload-area i { font-size: 3rem; color: #e94560; margin-bottom: 10px; }
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 10px;
+        }
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.12);
+            border-color: #e94560;
+            color: #fff;
+            box-shadow: 0 0 0 0.2rem rgba(233,69,96,0.25);
+        }
+        .form-control::placeholder { color: rgba(255,255,255,0.4); }
+        .form-select option { background: #16213e; color: #fff; }
+        .btn-translate {
+            background: linear-gradient(135deg, #e94560, #c62a47);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-translate:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(233,69,96,0.4); }
+        .result-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 80px;
+        }
+        .result-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #e94560; margin-bottom: 8px; }
+        .result-text { font-size: 1.1rem; line-height: 1.6; }
+        #spinner { display: none; }
+        #results { display: none; }
+        .file-name { font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-top: 8px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg mb-5">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-language me-2"></i>AudioTranslate</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="text-center mb-5">
+                    <h1 class="fw-bold mb-2">Audio Translator</h1>
+                    <p class="text-white-50">Upload an audio file and translate it to any language using AI</p>
+                </div>
+
+                <div class="card p-4 mb-4">
+                    <form id="translateForm" enctype="multipart/form-data">
+                        <div class="upload-area mb-3" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-microphone-alt d-block"></i>
+                            <p class="mb-1">Click to upload audio file</p>
+                            <small class="text-white-50">MP3, WAV, M4A, OGG supported</small>
+                            <p class="file-name" id="fileName"></p>
+                        </div>
+                        <input type="file" id="fileInput" name="file" accept="audio/*" class="d-none">
+
+                        <div class="mb-3">
+                            <label class="form-label text-white-50 small">Target Language</label>
+                            <select name="language" class="form-select">
+                                <option value="Spanish">Spanish</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                                <option value="Italian">Italian</option>
+                                <option value="Portuguese">Portuguese</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Arabic">Arabic</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Yoruba">Yoruba</option>
+                                <option value="Other">Other (type below)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4" id="customLangBox" style="display:none;">
+                            <input type="text" id="customLang" class="form-control" placeholder="Enter language name">
+                        </div>
+
+                        <button type="submit" class="btn btn-translate text-white w-100">
+                            <i class="fas fa-magic me-2"></i>Translate
+                        </button>
+                    </form>
+                </div>
+
+                <div id="spinner" class="text-center my-4">
+                    <div class="spinner-border text-danger" role="status"></div>
+                    <p class="mt-2 text-white-50">Transcribing and translating...</p>
+                </div>
+
+                <div id="results" class="card p-4">
+                    <div class="mb-4">
+                        <p class="result-label"><i class="fas fa-file-audio me-1"></i>Original Transcript</p>
+                        <p class="result-text" id="transcriptText"></p>
+                    </div>
+                    <hr style="border-color: rgba(255,255,255,0.1);">
+                    <div>
+                        <p class="result-label"><i class="fas fa-globe me-1"></i>Translation</p>
+                        <p class="result-text" id="translationText"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const customLangBox = document.getElementById('customLangBox');
+        const langSelect = document.querySelector('select[name="language"]');
+
+        fileInput.addEventListener('change', () => {
+            fileName.textContent = fileInput.files[0]?.name || '';
+        });
+
+        langSelect.addEventListener('change', () => {
+            customLangBox.style.display = langSelect.value === 'Other' ? 'block' : 'none';
+        });
+
+        document.getElementById('translateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+
+            if (langSelect.value === 'Other') {
+                const custom = document.getElementById('customLang').value.trim();
+                if (!custom) return alert('Please enter a language.');
+                formData.set('language', custom);
+            }
+
+            document.getElementById('spinner').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+
+            try {
+                const res = await fetch('/', { method: 'POST', body: formData });
+                const data = await res.json();
+                document.getElementById('transcriptText').textContent = data.transcript || 'N/A';
+                document.getElementById('translationText').textContent = data.translation || 'N/A';
+                document.getElementById('results').style.display = 'block';
+            } catch (err) {
+                alert('Something went wrong. Please try again.');
+            } finally {
+                document.getElementById('spinner').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
