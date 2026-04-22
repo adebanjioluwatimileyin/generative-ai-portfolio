@@ -1,0 +1,270 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper, top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[default]{lato}
+\usepackage{microtype}
+\usepackage{mdframed}
+
+\definecolor{VividPurple}{HTML}{6A0DAD}
+\definecolor{LightGray}{HTML}{F5F5F5}
+\definecolor{DarkGray}{HTML}{333333}
+
+\titleformat{\section}{\large\bfseries\color{VividPurple}}{}{0em}{}[\color{VividPurple}\hrule]
+\titlespacing{\section}{0pt}{12pt}{6pt}
+
+\titleformat{\subsection}{\normalsize\bfseries\color{DarkGray}}{}{0em}{}
+\titlespacing{\subsection}{0pt}{8pt}{2pt}
+
+\setlist[itemize]{leftmargin=1.5em, itemsep=2pt, topsep=4pt, parsep=0pt}
+
+\hypersetup{colorlinks=true, urlcolor=VividPurple}
+
+\pagestyle{empty}
+
+\newcommand{\projectentry}[1]{%
+  \begin{mdframed}[backgroundcolor=LightGray, linecolor=VividPurple, linewidth=1pt,
+    topline=false, bottomline=false, rightline=false,
+    innerleftmargin=10pt, innerrightmargin=10pt, innertopmargin=8pt, innerbottommargin=8pt,
+    skipabove=8pt, skipbelow=4pt]
+  #1
+  \end{mdframed}
+}
+
+
+\begin{document}
+
+%---------- HEADER ----------
+\begin{center}
+  {\LARGE\bfseries\color{VividPurple} Adebanji Adelowo}\\[4pt]
+  {\large Machine Learning Engineer \textbar{} Generative AI \& LLM Specialist}\\[6pt]
+  \small
+  \href{mailto:adelowooluwatimileyin@gmail.com}{adelowooluwatimileyin@gmail.com} \quad
+  +39 388 751 5527 \quad
+  Italy \\[2pt]
+  \href{https://linkedin.com/in/adebanjioluwatimileyin}{linkedin/adebanjioluwatimileyin} \quad
+  \href{https://github.com/adebanjioluwatimileyin}{github/adebanjioluwatimileyin} \quad
+  \href{https://adebanjioluwatimileyin.github.io/}{Portfolio}
+\end{center}
+
+\vspace{4pt}
+
+%---------- PROFILE OVERVIEW ----------
+\section{Upwork Profile Overview}
+
+Machine Learning Engineer with strong experience in data analysis and machine learning, specializing in Generative AI and Large Language Models (LLMs). I build production-ready AI systems --- from RAG pipelines and LLM applications to fine-tuned models and multi-cloud deployments. With an MSc in Mathematical Engineering and 3+ years of hands-on experience, I specialize in turning complex AI research into working software that delivers real business value.
+
+\textbf{\textcolor{VividPurple}{What I build:}}
+\begin{itemize}
+  \item Retrieval-Augmented Generation (RAG) systems with semantic search (Pinecone, FAISS, ChromaDB)
+  \item LLM-powered applications: chatbots, document Q\&A, code analysis tools, Telegram bots
+  \item Multi-provider AI architectures spanning OpenAI, AWS Bedrock, and Google Vertex AI
+  \item Fine-tuned models (Llama 2, Vertex AI) for domain-specific tasks
+  \item REST APIs and web apps (FastAPI, Flask, Chainlit, Streamlit) wrapping AI/ML systems
+  \item End-to-end ML pipelines: data processing $\rightarrow$ modeling $\rightarrow$ deployment
+\end{itemize}
+
+\textbf{\textcolor{VividPurple}{Industries I've worked in:}}\\
+Aviation (flight telemetry \& ML classifiers), IoT/vending machine analytics, digital engineering (Bridgestone), and GAN-based computer vision (Fellowship.AI).
+
+I'm comfortable across the full stack of an AI project --- data wrangling, model building, API development, cloud deployment, and LLMOps. Whether you need a prototype built fast or a production system designed properly, I bring both the engineering discipline and the mathematical depth to get it right.
+
+\textbf{\textcolor{VividPurple}{Tech I use regularly:}}\\
+LangChain \textbullet{} LlamaIndex \textbullet{} HuggingFace \textbullet{} OpenAI \textbullet{} AWS Bedrock \textbullet{} Vertex AI \textbullet{} PyTorch \textbullet{} FastAPI \textbullet{} Flask \textbullet{} Docker \textbullet{} Pinecone \textbullet{} ChromaDB \textbullet{} FAISS \textbullet{} Python \textbullet{} SQL
+
+\vspace{4pt}
+
+%---------- PROJECTS ----------
+\section{Portfolio Projects}
+
+%--- Project 1 ---%
+\subsection{Project 1: RAG Medical Chatbot}
+
+\projectentry{
+\textbf{\textcolor{VividPurple}{Title:}} Medical Q\&A Chatbot with Retrieval-Augmented Generation (RAG)
+
+\medskip
+\textbf{\textcolor{VividPurple}{Description:}}\\
+Built a domain-specific medical question-answering system using RAG architecture. The system ingests medical documents, chunks and embeds them into a Pinecone vector store, and retrieves semantically relevant context at query time to generate accurate, grounded responses via GPT-4. Designed to avoid hallucination by anchoring every answer to retrieved source documents. The application is served via a Flask web interface with conversational memory, allowing follow-up questions within a session.
+
+\medskip
+\textbf{\textcolor{VividPurple}{Skills:}} RAG, LangChain, OpenAI GPT-4, Pinecone, Vector Embeddings, Flask, Python, Prompt Engineering
+
+\medskip
+\textbf{\textcolor{VividPurple}{Deliverables:}}
+\begin{itemize}
+  \item Document ingestion and chunking pipeline
+  \item Pinecone vector store integration with semantic retrieval
+  \item Conversational Q\&A interface (Flask)
+  \item Context-aware response generation with source grounding
+\end{itemize}
+
+\textbf{\textcolor{VividPurple}{Project Link:}} \href{https://github.com/adebanjioluwatimileyin/generative-ai-portfolio/blob/main/End-to-End-AI-Applications/End-to-end-Medical-Chatbot-Generative-AI}{github.com/.../End-to-end-Medical-Chatbot-Generative-AI}
+
+\medskip
+\textbf{\textcolor{VividPurple}{Thumbnail Description:}} A clean chat interface showing a user asking a medical question and receiving a sourced, detailed answer. Background shows a document being processed and a vector database icon. Color palette: white, purple, and teal.
+}
+
+%--- Project 2 ---%
+\subsection{Project 2: Multi-Provider RAG System}
+
+\projectentry{
+\textbf{\textcolor{VividPurple}{Title:}} Portable Multi-Cloud RAG Pipeline with Provider Switching
+
+\medskip
+\textbf{\textcolor{VividPurple}{Description:}}\\
+Designed and built a modular RAG system that runs identically across three major AI cloud providers --- OpenAI, AWS Bedrock, and Google Vertex AI --- with a clean provider-switching architecture. This allows teams to avoid vendor lock-in and compare model outputs or costs across providers without rewriting application logic. Each provider integration is encapsulated behind a common interface. Vector stores (FAISS and ChromaDB) handle document retrieval, and LangChain orchestrates the pipeline. A Streamlit frontend lets users interact with the system and switch providers dynamically.
+
+\medskip
+\textbf{\textcolor{VividPurple}{Skills:}} LangChain, AWS Bedrock, Google Vertex AI, OpenAI, FAISS, ChromaDB, Streamlit, Python, LLMOps, Modular Architecture
+
+\medskip
+\textbf{\textcolor{VividPurple}{Deliverables:}}
+\begin{itemize}
+  \item Provider-agnostic RAG pipeline architecture
+  \item Integrations for OpenAI, AWS Bedrock, and Vertex AI
+  \item FAISS and ChromaDB vector store backends
+  \item Streamlit UI with provider-switching capability
+  \item Deployment-ready, modular codebase
+\end{itemize}
+
+\textbf{\textcolor{VividPurple}{Project Link:}} \href{https://github.com/adebanjioluwatimileyin/generative-ai-portfolio/tree/main/LLMOps-Cloud-Deployments}{github.com/.../LLMOps-Cloud-Deployments}
+
+\medskip
+\textbf{\textcolor{VividPurple}{Thumbnail Description:}} Diagram showing a central RAG pipeline connected to three cloud provider logos (OpenAI, AWS, Google Cloud). Below: a Streamlit chat interface. Clean architecture diagram aesthetic with purple and cloud-blue tones.
+}
+
+%--- Project 3 ---%
+\subsection{Project 3: LLM-Powered Codebase Analysis Tool}
+
+\projectentry{
+\textbf{\textcolor{VividPurple}{Title:}} Natural Language Code Search \& Analysis Tool using LLMs
+
+\medskip
+\textbf{\textcolor{VividPurple}{Description:}}\\
+Built a tool that lets users query an entire codebase in plain English. The system indexes repository files using ChromaDB for semantic retrieval, then routes natural language questions through an LLM (GPT-4) to generate precise, context-aware answers about code structure, logic, and functionality. Use cases include onboarding new developers, auditing legacy codebases, and automated code documentation. The tool is served via a Flask API.
+
+\medskip
+\textbf{\textcolor{VividPurple}{Skills:}} OpenAI GPT-4, ChromaDB, LangChain, Flask, Python, Semantic Search, Code Intelligence, REST API
+
+\medskip
+\textbf{\textcolor{VividPurple}{Deliverables:}}
+\begin{itemize}
+  \item Codebase indexing pipeline (file parsing + embedding)
+  \item ChromaDB vector store with code-aware retrieval
+  \item LLM reasoning layer for code Q\&A
+  \item Flask API with query endpoint
+\end{itemize}
+
+\textbf{\textcolor{VividPurple}{Project Link:}} \href{https://github.com/adebanjioluwatimileyin/generative-ai-portfolio/blob/main/End-to-End-AI-Applications/End-to-end-Source-Code-Analysis-Generative-AI}{github.com/.../End-to-end-Source-Code-Analysis-Generative-AI}
+
+\medskip
+\textbf{\textcolor{VividPurple}{Thumbnail Description:}} Split screen: left shows a code file tree; right shows a chat interface where a user asks ``What does the auth module do?'' and gets a detailed answer. Dark code-editor theme with purple accent colors.
+}
+
+%--- Project 4 ---%
+\subsection{Project 4: Llama 2 Fine-Tuning}
+
+\projectentry{
+\textbf{\textcolor{VividPurple}{Title:}} Supervised Fine-Tuning of Llama 2 for Domain-Specific Tasks
+
+\medskip
+\textbf{\textcolor{VividPurple}{Description:}}\\
+Fine-tuned Meta's Llama 2 using supervised fine-tuning (SFT) techniques for domain-specific language understanding and generation. The project covers the full fine-tuning workflow: dataset preparation, tokenization, training with HuggingFace Transformers, and evaluation against the base model to quantify improvement. Demonstrates practical LLM customization without requiring massive compute --- using efficient techniques suited to real-world budget constraints.
+
+\medskip
+\textbf{\textcolor{VividPurple}{Skills:}} Llama 2, HuggingFace Transformers, PEFT/LoRA, Supervised Fine-Tuning, Python, Model Evaluation, PyTorch
+
+\medskip
+\textbf{\textcolor{VividPurple}{Deliverables:}}
+\begin{itemize}
+  \item Fine-tuning pipeline (data prep $\rightarrow$ training $\rightarrow$ evaluation)
+  \item Quantitative comparison: fine-tuned vs.\ base Llama 2
+  \item Reusable training scripts for domain adaptation
+  \item HuggingFace-compatible model artifacts
+\end{itemize}
+
+\textbf{\textcolor{VividPurple}{Project Link:}} \href{https://github.com/adebanjioluwatimileyin/generative-ai-portfolio/blob/main/Fine-Tuning-LLMs/Llama2-Fine-Tuning}{github.com/.../Llama2-Fine-Tuning}
+
+\medskip
+\textbf{\textcolor{VividPurple}{Thumbnail Description:}} Before/after comparison of model outputs on a domain-specific prompt --- base Llama 2 gives a generic answer; fine-tuned version gives a precise, domain-aware response. HuggingFace logo and Llama icon visible. Dark background with green/purple highlights.
+}
+
+%--- Project 5 ---%
+\subsection{Project 5: Conversational AI Applications}
+
+\projectentry{
+\textbf{\textcolor{VividPurple}{Title:}} Real-Time Conversational AI Applications (Chainlit + Telegram)
+
+\medskip
+\textbf{\textcolor{VividPurple}{Description:}}\\
+Two production-style conversational AI applications built on OpenAI APIs:
+\begin{itemize}
+  \item \textbf{Zomato OrderBot:} A real-time food ordering assistant built with Chainlit. Users can browse a menu, customize orders, and receive order summaries through a multi-turn conversational interface with persistent session state.
+  \item \textbf{Telegram Chatbot:} A fully deployed Telegram bot powered by OpenAI, handling real-time user messages with context-aware responses via the Telegram Bot API.
+\end{itemize}
+Both projects demonstrate end-to-end deployment of LLM-powered chat interfaces.
+
+\medskip
+\textbf{\textcolor{VividPurple}{Skills:}} OpenAI GPT, Chainlit, Telegram Bot API, Python, Conversational AI, Session Management, Deployment
+
+\medskip
+\textbf{\textcolor{VividPurple}{Deliverables:}}
+\begin{itemize}
+  \item Zomato OrderBot with menu logic and order tracking (Chainlit)
+  \item Telegram bot with OpenAI integration and message handling
+  \item Multi-turn conversation with session memory
+  \item Deployment-ready configurations
+\end{itemize}
+
+\textbf{\textcolor{VividPurple}{Project Links:}}\\
+Zomato OrderBot: \href{https://github.com/adebanjioluwatimileyin/generative-ai-portfolio/blob/main/End-to-End-AI-Applications/LLM-Apps-with-Chainlit}{github.com/.../LLM-Apps-with-Chainlit}\\
+Telegram Bot: \href{https://github.com/adebanjioluwatimileyin/generative-ai-portfolio/blob/main/OpenAI-Projects/Telegram-chatbot}{github.com/.../Telegram-chatbot}
+
+\medskip
+\textbf{\textcolor{VividPurple}{Thumbnail Description:}} Two-panel image: left shows the Chainlit chat UI with a food menu conversation; right shows a Telegram interface on a phone screen with an AI responding to a user message. Warm food-themed colors on the left, Telegram blue on the right.
+}
+
+%--- Project 6 ---%
+\subsection{Project 6: Computer Vision --- Inpainting, Segmentation \& Denoising}
+
+\projectentry{
+\textbf{\textcolor{VividPurple}{Title:}} Computer Vision Systems: Inpainting, Segmentation \& Denoising (PyTorch)
+
+\medskip
+\textbf{\textcolor{VividPurple}{Description:}}\\
+Three computer vision projects from MSc research applying deep learning and mathematical optimization:
+\begin{itemize}
+  \item \textbf{TV-Regularized Image Inpainting:} Reconstructed missing image regions using Total Variation regularization and convex optimization --- a classical inverse problem approach.
+  \item \textbf{U-Net Roof Segmentation:} Semantic segmentation of aerial/satellite imagery to detect roof structures using a U-Net architecture.
+  \item \textbf{ResNet-Based Denoising \& Transfer Learning:} Noise removal using a residual network, plus transfer learning for image classification tasks.
+\end{itemize}
+These projects demonstrate mathematical depth in computer vision alongside practical deep learning implementation.
+
+\medskip
+\textbf{\textcolor{VividPurple}{Skills:}} PyTorch, U-Net, ResNet, Transfer Learning, Image Segmentation, Convex Optimization, NumPy, Python, Computer Vision
+
+\medskip
+\textbf{\textcolor{VividPurple}{Deliverables:}}
+\begin{itemize}
+  \item TV-regularized inpainting with iterative solver
+  \item U-Net segmentation model trained on aerial imagery
+  \item ResNet denoising model with PSNR/SSIM evaluation
+  \item Transfer learning classification pipeline
+\end{itemize}
+
+\textbf{\textcolor{VividPurple}{Project Links:}}\\
+Inpainting: \href{https://github.com/AdebanjiAdelowo/Image_inpainting}{github.com/AdebanjiAdelowo/Image\_inpainting}\\
+Deep Learning: \href{https://github.com/AdebanjiAdelowo/DeepLearningprojects}{github.com/AdebanjiAdelowo/DeepLearningprojects}\\
+Denoising: \href{https://github.com/AdebanjiAdelowo/Image_denoising_using_ResNet}{github.com/AdebanjiAdelowo/Image\_denoising\_using\_ResNet}
+
+\medskip
+\textbf{\textcolor{VividPurple}{Thumbnail Description:}} Three-panel image: (1) corrupted image $\rightarrow$ restored image showing inpainting result; (2) aerial satellite photo with roof outlines segmented in color overlay; (3) noisy image $\rightarrow$ clean denoised output. Scientific/technical visual style with cool blue tones.
+}
+
+\end{document}

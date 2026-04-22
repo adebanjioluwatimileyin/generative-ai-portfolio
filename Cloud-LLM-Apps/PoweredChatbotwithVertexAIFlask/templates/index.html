@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gemini Chatbot</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f1117;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      background-color: #1a1a2e;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      width: 90%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      height: 85vh;
+      overflow: hidden;
+    }
+
+    .header {
+      background-color: #16213e;
+      color: #fff;
+      padding: 16px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-bottom: 1px solid #2d2d4e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 10px; }
+
+    .header span.dot {
+      width: 10px; height: 10px;
+      background: #4ade80;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    #clearBtn {
+      background: transparent;
+      border: 1px solid #3d3d6b;
+      color: #9ca3af;
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #clearBtn:hover { border-color: #ef4444; color: #ef4444; }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .message {
+      max-width: 82%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      word-wrap: break-word;
+    }
+
+    .message.user {
+      background-color: #4f46e5;
+      color: #fff;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+      white-space: pre-wrap;
+    }
+
+    .message.bot {
+      background-color: #252540;
+      color: #e2e8f0;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    /* Markdown styles inside bot messages */
+    .message.bot p { margin-bottom: 0.6em; }
+    .message.bot p:last-child { margin-bottom: 0; }
+    .message.bot ul, .message.bot ol { padding-left: 1.4em; margin-bottom: 0.6em; }
+    .message.bot li { margin-bottom: 0.2em; }
+    .message.bot code {
+      background: #1a1a3e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.88em;
+    }
+    .message.bot pre {
+      background: #0f0f1e;
+      border: 1px solid #3d3d6b;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+      margin: 0.6em 0;
+    }
+    .message.bot pre code {
+      background: transparent;
+      padding: 0;
+      font-size: 0.85em;
+    }
+    .message.bot strong { color: #a5b4fc; }
+    .message.bot h1, .message.bot h2, .message.bot h3 {
+      margin: 0.6em 0 0.3em;
+      color: #c7d2fe;
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background-color: #252540;
+      align-self: flex-start;
+      padding: 14px 18px;
+      border-radius: 16px;
+      border-bottom-left-radius: 4px;
+    }
+    .typing-indicator span {
+      width: 7px; height: 7px;
+      background: #6b7280;
+      border-radius: 50%;
+      animation: bounce 1.2s infinite;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-6px); }
+    }
+
+    .input-area {
+      padding: 14px 18px;
+      border-top: 1px solid #2d2d4e;
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    #user-input {
+      flex: 1;
+      background-color: #252540;
+      border: 1px solid #3d3d6b;
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #e2e8f0;
+      font-size: 0.92rem;
+      font-family: Arial, sans-serif;
+      outline: none;
+      resize: none;
+      max-height: 140px;
+      overflow-y: auto;
+      line-height: 1.5;
+      transition: border-color 0.2s;
+    }
+    #user-input:focus { border-color: #4f46e5; }
+    #user-input::placeholder { color: #6b7280; }
+
+    #submitBtn {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 600;
+      transition: background-color 0.2s;
+      white-space: nowrap;
+      height: 40px;
+    }
+    #submitBtn:hover { background-color: #4338ca; }
+    #submitBtn:disabled { background-color: #374151; cursor: not-allowed; }
+
+    .messages::-webkit-scrollbar { width: 5px; }
+    .messages::-webkit-scrollbar-track { background: transparent; }
+    .messages::-webkit-scrollbar-thumb { background: #3d3d6b; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="header">
+      <div class="header-left">
+        <span class="dot"></span>
+        Gemini 2.0 Flash Chatbot
+      </div>
+      <button id="clearBtn">Clear chat</button>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="message bot">Hello! I'm powered by Gemini 2.0 Flash. How can I help you today?</div>
+    </div>
+
+    <div class="input-area">
+      <textarea
+        id="user-input"
+        rows="1"
+        placeholder="Type your message... (Shift+Enter for new line)"
+        autocomplete="off"
+      ></textarea>
+      <button id="submitBtn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const messagesDiv = document.getElementById("messages");
+    const userInput = document.getElementById("user-input");
+    const submitBtn = document.getElementById("submitBtn");
+    const clearBtn = document.getElementById("clearBtn");
+
+    // Auto-resize textarea
+    userInput.addEventListener("input", () => {
+      userInput.style.height = "auto";
+      userInput.style.height = Math.min(userInput.scrollHeight, 140) + "px";
+    });
+
+    function appendMessage(html, role, isMarkdown = false) {
+      const div = document.createElement("div");
+      div.className = "message " + role;
+      if (isMarkdown) {
+        div.innerHTML = marked.parse(html);
+      } else {
+        div.textContent = html;
+      }
+      messagesDiv.appendChild(div);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      return div;
+    }
+
+    function showTyping() {
+      const div = document.createElement("div");
+      div.className = "typing-indicator";
+      div.id = "typing";
+      div.innerHTML = "<span></span><span></span><span></span>";
+      messagesDiv.appendChild(div);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function removeTyping() {
+      const t = document.getElementById("typing");
+      if (t) t.remove();
+    }
+
+    async function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      appendMessage(text, "user");
+      userInput.value = "";
+      userInput.style.height = "auto";
+      submitBtn.disabled = true;
+      showTyping();
+
+      try {
+        const res = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        removeTyping();
+        appendMessage(data.content, "bot", true);
+      } catch (err) {
+        removeTyping();
+        appendMessage("Error: Could not reach the server.", "bot");
+      } finally {
+        submitBtn.disabled = false;
+        userInput.focus();
+      }
+    }
+
+    async function clearChat() {
+      await fetch("/clear", { method: "POST" });
+      messagesDiv.innerHTML = "";
+      appendMessage("Chat cleared. How can I help you?", "bot");
+    }
+
+    submitBtn.addEventListener("click", sendMessage);
+    clearBtn.addEventListener("click", clearChat);
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
