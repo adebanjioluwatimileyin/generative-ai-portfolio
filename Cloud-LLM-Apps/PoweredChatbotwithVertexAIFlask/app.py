@@ -1,18 +1,15 @@
 from flask import Flask, render_template, request, jsonify, session
 import os
-from vertexai.generative_models import GenerativeModel, GenerationConfig
+from google import genai
+from google.genai import types
 from dotenv import load_dotenv
-import vertexai
 
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("flask_secret_key", os.urandom(24))
 
-project_id = os.getenv("project_id")
-region = os.getenv("region", "us-central1")
-
-vertexai.init(project=project_id, location=region)
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 SYSTEM_INSTRUCTION = """You are a helpful, knowledgeable, and friendly AI assistant powered by Google Gemini.
 - Be concise but thorough.
@@ -20,21 +17,19 @@ SYSTEM_INSTRUCTION = """You are a helpful, knowledgeable, and friendly AI assist
 - If you don't know something, say so honestly.
 - Keep a conversational, approachable tone."""
 
-model = GenerativeModel(
-    "gemini-2.0-flash",
-    system_instruction=SYSTEM_INSTRUCTION,
-    generation_config=GenerationConfig(
-        temperature=0.7,
-        max_output_tokens=2048,
-    )
-)
-
 chat_sessions = {}
 
 
 def get_chat(session_id):
     if session_id not in chat_sessions:
-        chat_sessions[session_id] = model.start_chat()
+        chat_sessions[session_id] = client.chats.create(
+            model="gemini-2.5-flash",
+            config=types.GenerateContentConfig(
+                system_instruction=SYSTEM_INSTRUCTION,
+                temperature=0.7,
+                max_output_tokens=2048,
+            )
+        )
     return chat_sessions[session_id]
 
 

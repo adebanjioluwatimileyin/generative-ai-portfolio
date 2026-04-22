@@ -1,63 +1,56 @@
-# LLM-Powered Chatbot with Vertex AI
+# LLM-Powered Chatbot with Flask
 
-A Flask web chatbot powered by Google Gemini 1.5 Flash via Vertex AI. Features a dark-themed chat UI with conversation history.
+A Flask web chatbot powered by Google Gemini 2.5 Flash via the Gemini API. Features a dark-themed chat UI with full conversation history, markdown rendering, streaming-style responses, and multi-turn memory.
 
 ## How It Works
 
 ```
-User message → Flask backend → Gemini 1.5 Flash (Vertex AI) → Response displayed in chat
+User message → Flask backend → Gemini 2.5 Flash (Gemini API) → Response displayed in chat
 ```
 
 ## Features
 
-- Gemini 1.5 Flash via Google Vertex AI
-- Chat bubble UI with full conversation history
-- "Thinking..." indicator while waiting for response
-- Send with Enter key or button click
+- Gemini 2.5 Flash via the Google Gemini API
+- Multi-turn conversation — Gemini remembers the full chat history per session
+- Markdown rendering in bot responses (code blocks, lists, bold text)
+- Animated typing indicator while waiting for a response
+- Auto-resize textarea with Shift+Enter for new lines
+- Clear chat button to reset the conversation
 - Dark themed responsive UI
 
 ## Setup
 
-### 1. Create and activate a conda environment
+### 1. Get a Gemini API key
+
+1. Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+2. Click **Create API key**
+3. Copy the key
+
+### 2. Create and activate a conda environment
 
 ```bash
 conda create -n chatbot python=3.11 -y
 conda activate chatbot
 ```
 
-### 2. Install dependencies
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
-```
-
-### 3. Set up Google Cloud credentials
-
-Install the Google Cloud CLI:
-```bash
-# macOS
-brew install google-cloud-sdk
-
-# or download from: https://cloud.google.com/sdk/docs/install
-```
-
-Authenticate:
-```bash
-gcloud auth application-default login
 ```
 
 ### 4. Set up environment variables
 
 Create a `.env` file in the project root:
 
-```
-project_id=your-gcp-project-id
-region=us-central1
+```ini
+GEMINI_API_KEY=your-gemini-api-key
+flask_secret_key=your-random-secret-key
 ```
 
-Enable the Vertex AI API in your GCP project:
+To generate a secure secret key:
 ```bash
-gcloud services enable aiplatform.googleapis.com
+python -c "import secrets; print(secrets.token_hex(32))"
 ```
 
 ### 5. Run the app
@@ -71,5 +64,5 @@ Opens at `http://localhost:8080`.
 ## Tech Stack
 
 - [Flask](https://flask.palletsprojects.com/) — web framework
-- [Google Vertex AI](https://cloud.google.com/vertex-ai) — Gemini 1.5 Flash model
-- Vanilla JS — frontend chat UI
+- [Google Gemini API](https://ai.google.dev/) — Gemini 2.5 Flash model
+- Vanilla JS + marked.js — frontend chat UI

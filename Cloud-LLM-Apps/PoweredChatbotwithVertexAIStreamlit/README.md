@@ -1,6 +1,6 @@
-# Gemini 2.0 Flash Chatbot — Vertex AI + Streamlit
+# Gemini 2.5 Flash Chatbot — Streamlit
 
-A conversational chatbot built with Streamlit and Google Vertex AI. Supports multi-turn conversation with full chat history, streaming responses, and a system prompt giving Gemini a helpful persona.
+A conversational chatbot built with Streamlit and the Google Gemini API. Supports multi-turn conversation with full chat history, streaming responses, and a system prompt giving Gemini a helpful persona.
 
 ## Features
 
@@ -8,21 +8,21 @@ A conversational chatbot built with Streamlit and Google Vertex AI. Supports mul
 - Streaming responses for real-time output
 - System prompt with clear persona and guidelines
 - Clear chat button to reset the conversation
-- Powered by Gemini 2.0 Flash via Vertex AI
+- Powered by Gemini 2.5 Flash via the Gemini API
 
 ## Tech Stack
 
 - **Python** — application logic
-- **Vertex AI** — Gemini 2.0 Flash model
+- **Google Gemini API** — Gemini 2.5 Flash model
 - **Streamlit** — web UI
 
 ## Setup
 
-### Step 1 — Authenticate with Google Cloud
+### Step 1 — Get a Gemini API key
 
-```bash
-gcloud auth application-default login
-```
+1. Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+2. Click **Create API key**
+3. Copy the key
 
 ### Step 2 — Create and activate a conda environment
 
@@ -39,15 +39,14 @@ pip install -r requirements.txt
 
 ### Step 4 — Set up environment variables
 
-Copy `.env.example` to `.env` and fill in your values:
+Copy `.env.example` to `.env` and fill in your API key:
 
 ```bash
 cp .env.example .env
 ```
 
 ```ini
-project_id=your_gcp_project_id
-region=us-central1
+GEMINI_API_KEY=your-gemini-api-key
 ```
 
 ### Step 5 — Run the app

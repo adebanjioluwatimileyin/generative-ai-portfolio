@@ -1,15 +1,10 @@
-import vertexai
 import streamlit as st
 import os
-from vertexai.generative_models import GenerativeModel, GenerationConfig
+from google import genai
+from google.genai import types
 from dotenv import load_dotenv
 
 load_dotenv()
-
-project_id = os.getenv("project_id")
-project_region = os.getenv("region", "us-central1")
-
-vertexai.init(project=project_id, location=project_region)
 
 SYSTEM_INSTRUCTION = """You are a helpful, knowledgeable, and friendly AI assistant powered by Google Gemini.
 - Be concise but thorough.
@@ -17,25 +12,25 @@ SYSTEM_INSTRUCTION = """You are a helpful, knowledgeable, and friendly AI assist
 - If you don't know something, say so honestly.
 - Keep a conversational, approachable tone."""
 
-model = GenerativeModel(
-    "gemini-2.0-flash",
-    system_instruction=SYSTEM_INSTRUCTION,
-    generation_config=GenerationConfig(
-        temperature=0.7,
-        max_output_tokens=2048,
-    )
-)
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 
 def get_chat_session():
     if "chat_session" not in st.session_state:
-        st.session_state.chat_session = model.start_chat()
+        st.session_state.chat_session = client.chats.create(
+            model="gemini-2.5-flash",
+            config=types.GenerateContentConfig(
+                system_instruction=SYSTEM_INSTRUCTION,
+                temperature=0.7,
+                max_output_tokens=2048,
+            )
+        )
     return st.session_state.chat_session
 
 
 def stream_response(query):
     chat = get_chat_session()
-    for chunk in chat.send_message_streaming(query):
+    for chunk in chat.send_message_stream(query):
         yield chunk.text
 
 
@@ -48,18 +43,19 @@ def main():
     with st.sidebar:
         st.title("⚙️ Configuration")
         st.divider()
-        st.markdown("**Model:** Gemini 2.0 Flash")
-        st.markdown("**Provider:** Google Vertex AI")
+        st.markdown("**Model:** Gemini 2.5 Flash")
+        st.markdown("**Provider:** Google Gemini API")
         st.divider()
 
         if st.button("🗑️ Clear Chat", use_container_width=True):
             st.session_state.messages = []
-            del st.session_state.chat_session
+            if "chat_session" in st.session_state:
+                del st.session_state.chat_session
             st.rerun()
 
-        st.caption("Powered by Vertex AI + Streamlit")
+        st.caption("Powered by Gemini API + Streamlit")
 
-    st.title("✨ Gemini 2.0 Flash Chatbot")
+    st.title("✨ Gemini 2.5 Flash Chatbot")
     st.caption("Ask me anything — I remember the full conversation.")
 
     for msg in st.session_state.messages:
