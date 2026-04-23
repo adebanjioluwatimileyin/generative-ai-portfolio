@@ -1,4 +1,4 @@
-# LLM Apps with Chainlit — Zomato OrderBot
+# LLM Apps with Chainlit — OrderBot
 
 An AI-powered food ordering chatbot built with Chainlit and OpenAI. The bot greets customers, takes their order from the menu, handles pickup/delivery, and calculates the final payment.
 
