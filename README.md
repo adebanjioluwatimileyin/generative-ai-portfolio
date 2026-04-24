@@ -10,7 +10,7 @@ A collection of end-to-end Generative AI projects covering RAG pipelines, LLM fi
 |---|---|---|
 | [Medical Chatbot](End-to-End-AI-Applications/End-to-end-Medical-Chatbot-Generative-AI/) | RAG-based chatbot that answers medical questions from a PDF knowledge base | OpenAI, Pinecone, LangChain, Flask |
 | [Source Code Analyser](End-to-End-AI-Applications/End-to-end-Source-Code-Analysis-Generative-AI/) | Clone any GitHub repo and ask natural language questions about the code | OpenAI, ChromaDB, LangChain, Flask |
-| [Zomato OrderBot](End-to-End-AI-Applications/LLM-Apps-with-Chainlit/) | Conversational food ordering chatbot with a full menu | OpenAI, Chainlit |
+| [Food OrderBot](End-to-End-AI-Applications/LLM-Apps-with-Chainlit/) | Conversational food ordering chatbot with a full menu | OpenAI, Chainlit |
 
 ---
 
