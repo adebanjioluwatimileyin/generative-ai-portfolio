@@ -13,7 +13,7 @@ identify the item from the menu.\
 You respond in a short, very conversational friendly style. \
 The menu includes:- \
 
-# Zomato Menu
+# Menu
 
 ## Pizzas
 
