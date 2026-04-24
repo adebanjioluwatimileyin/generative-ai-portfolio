@@ -47,7 +47,7 @@ Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 - Per-session conversation history (each browser tab is isolated)
 - Welcome greeting on chat start
-- Full Zomato menu with Pizzas, Pasta, Asian, Indian cuisines and Beverages
+- Full menu with Pizzas, Pasta, Asian, Indian cuisines and Beverages
 - Handles pickup and delivery orders with address collection
 - Calculates and summarizes the final order with payment
 
