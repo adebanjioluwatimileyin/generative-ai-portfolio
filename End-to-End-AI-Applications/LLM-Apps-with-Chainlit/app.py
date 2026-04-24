@@ -6,7 +6,7 @@ from src.prompt import system_instruction
 @cl.on_chat_start
 async def start():
     cl.user_session.set("messages", [{"role": "system", "content": system_instruction}])
-    await cl.Message(content="👋 Welcome to **Zomato OrderBot**! How can I help you today?").send()
+    await cl.Message(content="👋 Welcome to **OrderBot**! How can I help you today?").send()
 
 
 @cl.on_message
